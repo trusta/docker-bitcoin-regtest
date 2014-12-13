@@ -1,20 +1,20 @@
-DOCKER_RUN=sudo docker run -t
+DOCKER_RUN=docker run -t
 DOCKER_ALICE=$(DOCKER_RUN) -p 18444:18444 -p 18332:18332 --name=alice --hostname=alice
 DOCKER_BOB  =$(DOCKER_RUN) -p 19444:18444 -p 19332:18332 --name=bob --hostname=bob
 
-IMG=gak/bitcoin-regtest
+IMG=ps5if/bitcoin-regtest
 
 RUN_DAEMON=bitcoind -regtest -rpcallowip=* -printtoconsole
 RUN_SHELL=bash
 
 build:
-	sudo docker build -t gak/bitcoin-regtest bitcoin-regtest
+	docker build -t ps5if/bitcoin-regtest bitcoin-regtest
 
 alice_rm:
-	-sudo docker rm -f alice
+	-docker rm -f alice
 
 bob_rm:
-	-sudo docker rm -f bob
+	-docker rm -f bob
 
 alice_daemon: build alice_rm
 	$(DOCKER_ALICE) -d=true $(IMG) $(RUN_DAEMON)
